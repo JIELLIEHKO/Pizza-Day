@@ -57,7 +57,7 @@ const initialState: CartState = {
 	priority: false,
 	priorityPrice: 8,
 	position: '',
-	orderId: ''
+	orderId: '',
 };
 
 export const getAllPizzas = createAsyncThunk<Pizza[], void, { state: RootState }>(

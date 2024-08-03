@@ -1,0 +1,61 @@
+.container-basket {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 5rem;
+
+	.basket {
+
+		.basket-title {
+			display: flex;
+			justify-content: space-between;
+			font-size: 1rem;
+			padding-bottom: 2rem;
+			border-bottom: 1px solid #9A9A9A;
+
+			h2 {
+				margin: 0;
+			}
+
+			.basket-status {
+				display: flex;
+				align-items: end;
+				justify-content: flex-end;
+
+				.basket-priority {
+					font-size: 0.7rem;
+					text-transform: uppercase;
+					background-color: #F24949;
+					color: white;
+					padding: 0.5rem;
+					border-radius: 10px;
+					text-align: center;
+					margin-right: 1rem;
+				}
+
+				.basket-order {
+					font-size: 0.7rem;
+					text-transform: uppercase;
+					background-color: #24BF5B;
+					color: white;
+					padding: 0.5rem;
+					border-radius: 10px;
+					text-align: center;
+				}
+			}
+
+		}
+
+		.container-price {
+			background-color: #E7E5E4;
+			margin-top: 1rem;
+			padding: 0.5rem 2rem;
+			border-radius: 10px;
+		}
+
+		ul {
+			padding: 0;
+		}
+	}
+}
+

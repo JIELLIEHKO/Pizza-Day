@@ -1,4 +1,4 @@
-import './Menu.css';
+import './menu.css';
 import { Button } from '../Button/Button';
 import {
 	addToCart,
@@ -41,8 +41,11 @@ const MenuItem: FC<MenuItemProps> = (
 		dispatch(addToCart(pizza));
 	};
 
-	console.log('qty >>>', qty)
-	console.log(cartItem)
+	function capitalizeFirstLetters(arr: string[]): string[] {
+		return arr.map(str => str.charAt(0).toUpperCase() + str.slice(1));
+	}
+
+	const capitalizedArray: string[] = capitalizeFirstLetters(ingredients);
 	return (
 		<>
 			<ul>
@@ -57,7 +60,7 @@ const MenuItem: FC<MenuItemProps> = (
 						<p className='pizza__name'>{name}</p>
 
 						<div className='pizza__ingredients'>
-							<p>{ingredients.join(', ')}</p>
+							<p>{capitalizedArray.join(', ')}</p>
 						</div>
 
 						<div className='pizza__actions'>

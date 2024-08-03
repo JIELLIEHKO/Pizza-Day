@@ -50,16 +50,17 @@ ul {
 }
 
 .pizza__name {
-	font-weight: 500;
+	font-weight: 700;
 }
 
 .pizza__ingredients {
 	display: flex;
 	font-style: italic;
 	width: 700px;
+	list-style: none;
 
 	p {
-		margin-bottom: 1rem;
+		margin-bottom: 0.7rem;
 		padding-right: 1rem;
 	}
 }

@@ -6,9 +6,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from '../components/Input/Input'
 import { Button } from '../components/Button/Button.tsx'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import { addOrderId, addOrderInfo } from '../redux/slices/cartSlice.ts'
 import { RootState } from '../redux/store.ts'
+import { useAppDispatch, useAppSelector } from '../app/hooks.ts'
+import FormOrder from '../components/Form/FormOrder.tsx'
 
 // Типизация элемента корзины
 interface CartItem {
@@ -38,6 +39,7 @@ type FormSchemaType = Yup.InferType<typeof formSchema>;
 
 export const Order: FC = () => {
 	const navigate = useNavigate()
+
 	const {
 		control,
 		handleSubmit,
@@ -54,12 +56,13 @@ export const Order: FC = () => {
 		resolver: yupResolver(formSchema) as Resolver<FormSchemaType>
 	})
 
-	const dispatch = useDispatch()
-	const cartItems = useSelector((state: RootState) => state.cart.cartItems)
+	const dispatch = useAppDispatch()
+	const cartItems = useAppSelector((state: RootState) => state.cart.cartItems)
+	const totalPrice = useAppSelector((state: RootState) => state.cart.totalPrice)
 
 	const onSubmit = async (data: FormData) => {
 		if (cartItems.length === 0) {
-			alert('Кошик порожній')
+			alert('The basket is empty!')
 			return
 		}
 
@@ -74,7 +77,7 @@ export const Order: FC = () => {
 				pizzaId: item.id,
 				quantity: item.qty,
 				totalPrice: item.qty * item.unitPrice,
-				unitPrice: item.unitPrice
+				unitPrice: item.unitPrice,
 			}))
 		}
 
@@ -107,45 +110,13 @@ export const Order: FC = () => {
 			<Header />
 			<div className="container-order">
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<h2>Готовы к заказу? Поехали!</h2>
-					<div>
-						<label htmlFor="name">Имя</label>
-						<Controller
-							control={control}
-							name="name"
-							render={({ field }) => <Input {...field} type="text" placeholder="" />}
-						/>
-					</div>
+					<h2>Ready to order? Let's go!</h2>
 
-					<div className="order-error">
-						{errors.name && <p>{errors.name.message}</p>}
-					</div>
+					<FormOrder control={control} errors={errors} name="name" type="text">First Name</FormOrder>
 
-					<div>
-						<label htmlFor="phone">Номер телефона</label>
-						<Controller
-							control={control}
-							name="phone"
-							render={({ field }) => <Input {...field} type="text" placeholder="" />}
-						/>
-					</div>
+					<FormOrder control={control} errors={errors} name="phone" type="text">Phone number</FormOrder>
 
-					<div className="order-error">
-						{errors.phone && <p>{errors.phone.message}</p>}
-					</div>
-
-					<div>
-						<label htmlFor="address">Адрес</label>
-						<Controller
-							control={control}
-							name="address"
-							render={({ field }) => <Input {...field} type="text" placeholder="" />}
-						/>
-					</div>
-
-					<div className="order-error">
-						{errors.address && <p>{errors.address.message}</p>}
-					</div>
+					<FormOrder control={control} errors={errors} name="address" type="text">Address</FormOrder>
 
 					<div className="container-checkbox">
 						<label>
@@ -163,13 +134,13 @@ export const Order: FC = () => {
 									/>
 								)}
 							/>
-							Хотите придать приоритет вашему заказу?
+							Want to yo give your order priority?
 						</label>
 					</div>
 
 					<div className="counter-button">
 						<Button type="submit" isActive={false} onClick={() => {
-						}}>Заказать</Button>
+						}}>Order now for €{totalPrice}.00</Button>
 					</div>
 				</form>
 			</div>

@@ -6,11 +6,13 @@ interface InputProps {
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 	placeholder?: string;
+	autoComplete?: string;
 }
 
 export const Input =
 	forwardRef<HTMLInputElement, InputProps>(
-		({ type, value, onChange, onBlur, placeholder }, ref) => {
+		({ type, value, onChange, onBlur, placeholder, autoComplete }, ref) => {
+
 			return (
 				<input
 					ref={ref}
@@ -19,6 +21,7 @@ export const Input =
 					onChange={onChange}
 					placeholder={placeholder}
 					onBlur={onBlur}
+					autoComplete={autoComplete}
 				/>
 			)
 		}

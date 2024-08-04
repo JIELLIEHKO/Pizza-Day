@@ -4,7 +4,7 @@ interface ButtonProps {
 	children: ReactNode,
 	onClick: MouseEventHandler<HTMLButtonElement>,
 	isActive: boolean,
-	type: "button" | "submit" | "reset";
+	type: any;
 }
 
 export const Button: FC<ButtonProps> = ({ children, onClick, isActive, type }) => {

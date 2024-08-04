@@ -1,9 +1,8 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { FC } from 'react'
 import FormLogin from '../components/Form/FormLogin';
 import { Header } from '../components/Header';
 
 const Login: FC = () => {
-	const [value, setValue] = useState<string>(''); // определение значения для value
 
 	return (
 		<>
@@ -20,14 +19,10 @@ const Login: FC = () => {
 					<p className='sub-title'>
 						👋 Welcome! Please start by telling us your name:
 					</p>
-
-					{/* Пропсы для FormLogin */}
 					<FormLogin
 						type='name'
 						placeholder='Your full name'
 						classForm='login-form'
-						value={value}
-						onChange={(e: ChangeEvent<HTMLInputElement> ) => setValue(e.target.value)} // обработчик изменения значения
 					/>
 				</div>
 			</main>

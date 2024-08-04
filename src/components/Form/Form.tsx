@@ -8,13 +8,14 @@ interface FormProps {
 	type: string,
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	onClick: () => void;
+	name: string;
 }
 
-export const Form: FC<FormProps> = ({ classForm, type, placeholder, value, onChange}) => {
+export const Form: FC<FormProps> = ({ classForm, type, placeholder, value, onChange, name}) => {
 	return (
 		<>
 			<form className={classForm ? classForm : undefined}>
-				<Input type={type} placeholder={placeholder}  value={value} onChange={onChange}/>
+				<Input type={type} placeholder={placeholder}  value={value} onChange={onChange} name={name}/>
 			</form>
 		</>
 	)

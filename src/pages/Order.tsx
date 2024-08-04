@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 import { Header } from '../components/Header'
 import { Controller, Resolver, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -11,7 +11,6 @@ import { RootState } from '../redux/store.ts'
 import { useAppDispatch, useAppSelector } from '../app/hooks.ts'
 import FormOrder from '../components/Form/FormOrder.tsx'
 
-// Типизация элемента корзины
 interface CartItem {
 	id: string;
 	name: string;
@@ -19,7 +18,6 @@ interface CartItem {
 	unitPrice: number;
 }
 
-// Типизация данных формы
 interface FormData {
 	name: string;
 	phone: string;
@@ -27,7 +25,6 @@ interface FormData {
 	priority?: boolean;
 }
 
-// Валидационная схема Yup для формы
 const formSchema = Yup.object().shape({
 	name: Yup.string().required('Поле не должно быть пустым'),
 	phone: Yup.string().required('Поле не должно быть пустым'),
@@ -59,6 +56,7 @@ export const Order: FC = () => {
 	const dispatch = useAppDispatch()
 	const cartItems = useAppSelector((state: RootState) => state.cart.cartItems)
 	const totalPrice = useAppSelector((state: RootState) => state.cart.totalPrice)
+	const [isPriority, setIsPriority] = useState(false);
 
 	const onSubmit = async (data: FormData) => {
 		if (cartItems.length === 0) {
@@ -111,11 +109,8 @@ export const Order: FC = () => {
 			<div className="container-order">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<h2>Ready to order? Let's go!</h2>
-
 					<FormOrder control={control} errors={errors} name="name" type="text">First Name</FormOrder>
-
 					<FormOrder control={control} errors={errors} name="phone" type="text">Phone number</FormOrder>
-
 					<FormOrder control={control} errors={errors} name="address" type="text">Address</FormOrder>
 
 					<div className="container-checkbox">
@@ -129,6 +124,7 @@ export const Order: FC = () => {
 										{...field}
 										onChange={(e: ChangeEvent<HTMLInputElement>) => {
 											setValue('priority', e.target.checked)
+											setIsPriority(e.target.checked);
 										}}
 										value={field.value || false}
 									/>
@@ -140,7 +136,7 @@ export const Order: FC = () => {
 
 					<div className="counter-button">
 						<Button type="submit" isActive={false} onClick={() => {
-						}}>Order now for €{totalPrice}.00</Button>
+						}}>Order now for €{!isPriority ? totalPrice : totalPrice + 8}.00</Button>
 					</div>
 				</form>
 			</div>

@@ -2,12 +2,14 @@ import { Header } from '../Header.tsx'
 import OrderItem from './OrderItem.tsx'
 import { FC, useState } from 'react'
 import { RootState } from '../../redux/store.ts'
-import { useAppSelector } from '../../app/hooks.ts'
+import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
 import './order.css'
 import { Button } from '@mui/material'
 import Modal from './Modal.tsx'
+import { togglePriority } from '../../redux/slices/cartSlice.ts'
 
 const OrderId: FC = () => {
+	const dispatch = useAppDispatch();
 	const {
 		cartItems, totalPrice, priority, orderId, customer, phone, address
 	} = useAppSelector(
@@ -19,13 +21,15 @@ const OrderId: FC = () => {
 		setIsOpen(!isOpen);
 	};
 
+	const handlePriorityClick = () => {
+		dispatch(togglePriority());
+	};
+
 	return (
 		<>
 			<Header />
 			<div className="container-basket">
-				<div id="modal-root">
-
-				</div>
+				<div id="modal-root"></div>
 				<div className='basket'>
 					<div className="basket-title">
 						<h2>{`Order: #${orderId} status: preparing`}</h2>
@@ -54,11 +58,15 @@ const OrderId: FC = () => {
 							<p style={{ fontWeight: '700' }}>{`To pay on delivery: €${totalPrice + 8}.00`}</p>
 						)}
 					</div>
-					<Button onClick={toggleModal} variant="contained" color="info" style={{ marginTop: '1rem' }}>
-						Make an order
-					</Button>
+					<div style={{display: 'flex', justifyContent: 'space-between',  marginTop: '1rem'}}>
+						<Button onClick={toggleModal} variant="contained" color="success">
+							Make an order
+						</Button>
+						<Button onClick={handlePriorityClick} variant="contained" color="error">
+							{priority ? "Remove Priority" : "Prioritize"}
+						</Button>
+					</div>
 				</div>
-
 				<Modal
 					isOpen={isOpen}
 					onClose={toggleModal}
@@ -68,7 +76,6 @@ const OrderId: FC = () => {
 					<p>Phone number: {phone}</p>
 					<p>Address: {address}</p>
 				</Modal>
-
 			</div>
 		</>
 	)

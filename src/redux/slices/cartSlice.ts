@@ -122,7 +122,10 @@ const cartSlice = createSlice({
 		},
 		addOrderId: (state, action: PayloadAction<{ orderId: string }>) => {
 			state.orderId = action.payload.orderId;
-		}
+		},
+		togglePriority(state) {
+			state.priority = !state.priority;
+		},
 	},
 	extraReducers: builder => {
 		builder
@@ -158,7 +161,8 @@ export const {
 	decrement,
 	increment,
 	addOrderInfo,
-	addOrderId
+	addOrderId,
+	togglePriority,
 } = cartSlice.actions;
 
 const calcTotalItems = (items: CartItem[]): number =>

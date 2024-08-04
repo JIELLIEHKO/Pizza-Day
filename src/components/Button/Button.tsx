@@ -4,15 +4,16 @@ interface ButtonProps {
 	children: ReactNode,
 	onClick: MouseEventHandler<HTMLButtonElement>,
 	isActive: boolean,
-	type: string
+	type: "button" | "submit" | "reset";
 }
 
-export const Button: FC<ButtonProps> = ({ children, onClick, isActive,  }) => {
+export const Button: FC<ButtonProps> = ({ children, onClick, isActive, type }) => {
 	return (
 		<>
 			<button
 				className={isActive ? 'button active' : 'button'}
 				onClick={onClick}
+				type={type}
 			>
 				{children}
 			</button>

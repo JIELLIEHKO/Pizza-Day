@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom'
 const Basket: FC = () => {
 	const dispatch = useAppDispatch();
 	const {
-		cartItems, totalPrice
+		cartItems, totalPrice, priority
 	} = useAppSelector(
 		(state: RootState) => state.cart
 	);
@@ -32,8 +32,11 @@ const Basket: FC = () => {
 							<ItemBasket key={item.id} item={item} price={item.unitPrice} qty={item.qty} onRemove={handleDeleteFromCart} />
 						))}
 					</List>
-					<Typography variant="h6">Total price: ${totalPrice}</Typography>
-
+					<Typography>{`Price pizza: €${totalPrice}.00`}</Typography>
+					{priority === true && <Typography>{`Price priority: €8.00`}</Typography>}
+					{priority === true && (
+						<Typography style={{ fontWeight: '700' }}>{`To pay on delivery: €${totalPrice + 8}.00`}</Typography>
+					)}
 					<NavLink to='/order/new'>
 						<Button variant="contained" color="primary">
 							Checkout
